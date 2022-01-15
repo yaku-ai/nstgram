@@ -1,19 +1,20 @@
-from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
+from create_bot import dp
+from handlers import client
+
 
 import os
 
-bot = Bot(token=os.getenv('TOKEN'))
-dp = Dispatcher(bot)
+
+client.register_handler_client(dp)
 
 
-@dp.message_handler()
-async def echo_send(message: types.Message):
-    await message.answer(message.text)
+async def on_startup(_):
+    print('bot is active')
 
 
-executor.start_polling(dp, skip_updates=True)
+executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
 
 
 
